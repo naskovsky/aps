@@ -12,8 +12,6 @@ class SLLNode {
         this.plata = plata;
         this.succ = succ;
     }
-
-
 }
 
 class SLL {
