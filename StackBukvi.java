@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -76,46 +76,41 @@ class ArrayStack<E> implements Stack<E> {
     }
 }
 
-public class StackBukvi {
-    static int proveri_t_posle_s(char[] st) {
-        int result = 1;
-        int count = 0;
-        int countT = 0;
-        ArrayStack<String> as = new ArrayStack<>(st.length);
-        ArrayStack<Integer> numberOfT = new ArrayStack<>(st.length);
-        ArrayList<Integer> test = new ArrayList<>();
-        Integer[]dada = new Integer[st.length];
-        String[] sAndTs = new String[st.length];
-        for (int i = 0; i < st.length; i++) {
-            as.push(String.valueOf(st[i]));
+public class Main {
+    static int proveri_t_posle_s(char[] St) {
+        ArrayStack<String> stckarr = new ArrayStack<>(St.length);
+        for (int i = St.length - 1; i >= 0; i--) {
+            stckarr.push(Character.toString(St[i]));
         }
-        int j = 0;
-        int countTTTTT = 0;
-        while (!as.isEmpty()) {
-            String element = as.pop();
-            if (element.equals("T")) {
-                count++;
-            } else if (element.equals("S")) {
-                if(dada[0] == null){
-                    dada[j] = count;
-                    countTTTTT++;
-                } else {
-                    j++;
-                    countTTTTT++;
-                    dada[j] = count;
-                }
-                count = 0;
+        /*for (int i = 0; i < St.length; i++) {
+            System.out.println(i + ": " + stckarr.pop());
+        }*/
+        int daliS = 0;
+        int brojachTvoS = 0;
+        int brojachTvonS = 0;
+        while(!stckarr.isEmpty()){
+            if(stckarr.peek().equals("S") && daliS == 0){ // pocetok na S
+                daliS++;
+                stckarr.pop();
+            }else if(stckarr.peek().equals("T") && daliS != 0){ // T vo S
+                stckarr.pop();
+                brojachTvoS++;
+            }else if(stckarr.peek().equals("S") && daliS == 1){ // Kraj na S
+                daliS = 0;
+                stckarr.pop();
+            }else if(stckarr.peek().equals("T") && daliS == 0 && brojachTvoS != 0){ // T von S
+                stckarr.pop();
+                brojachTvonS++;
+            }else{
+                stckarr.pop();
             }
         }
-        for (int i = 0; i < countTTTTT; i++) {
-            if (i < countTTTTT - 1) {
-                if (dada[i] != dada[i+1]) {
-                    result = 0;
-                    break;
-                }
-            }
-        }
-        return result;
+
+        if(brojachTvoS == brojachTvonS)
+            return 1;
+        else
+            return 0;
+
     }
 
     public static void main(String[] args) throws IOException {
